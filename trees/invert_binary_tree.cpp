@@ -25,4 +25,36 @@ public:
         
         return root;
     }
+
+    TreeNode* invertTreeIterative(TreeNode* root) {
+        if(root == NULL)
+        {
+            return NULL;
+        }
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while(!q.empty())
+        {
+            TreeNode* cur = q.front();
+            q.pop();
+            
+            if(cur -> left != NULL)
+            {
+                q.push(cur -> left);
+            }
+            
+            if(cur -> right != NULL)
+            {
+                q.push(cur -> right);
+            }
+            
+            TreeNode* tmp = cur -> left;
+            cur -> left = cur -> right;
+            cur -> right = tmp;
+        }
+        
+        return root;
+    }
 };
