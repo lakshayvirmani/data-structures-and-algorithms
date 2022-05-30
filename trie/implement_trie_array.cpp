@@ -27,36 +27,30 @@ public:
         tmp->isEndOfWord = true;
     }
     
-    bool search(string word) {
+    Trie* searchPrefix(string word) {
         auto tmp = this;
         
         for(char ch : word)
         {
             if(tmp->map[ch-'a'] == NULL)
             {
-                return false;
+                return NULL;
             }
             
             tmp = tmp->map[ch-'a'];
         }
         
-        return tmp->isEndOfWord;
+        return tmp;
+    }
+    
+    bool search(string word) {
+        auto tmp = searchPrefix(word);
+        return tmp != NULL && tmp->isEndOfWord;
     }
     
     bool startsWith(string prefix) {
-        auto tmp = this;
-        
-        for(char ch : prefix)
-        {
-            if(tmp->map[ch-'a'] == NULL)
-            {
-                return false;
-            }
-            
-            tmp = tmp->map[ch-'a'];
-        }
-        
-        return true;
+        auto tmp = searchPrefix(prefix);
+        return tmp != NULL;
     }
 };
 
