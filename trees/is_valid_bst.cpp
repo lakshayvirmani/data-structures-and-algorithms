@@ -15,19 +15,19 @@ public:
         return checkValidity(root, NULL, NULL);
     }
 private:
-    bool checkValidity(TreeNode* root, int* min, int* max)
+    bool checkValidity(TreeNode* root, TreeNode* lo, TreeNode* hi)
     {
         if(root == NULL)
         {
             return true;
         }
-        else if((min != NULL && root->val <= *min) || (max != NULL && root->val >= *max))
+        else if((lo != NULL && root->val <= lo->val) || (hi != NULL && root->val >= hi->val))
         {
             return false;
         }
         else
         {
-            return checkValidity(root->left, min, &root->val) && checkValidity(root->right, &root->val, max);
+            return checkValidity(root->left, lo, root) && checkValidity(root->right, root, hi);
         }
     }
 };
