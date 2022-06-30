@@ -1,13 +1,10 @@
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        unordered_map<string, string> m;
-        map<string, unordered_set<string>> e;
+        unordered_map<string, unordered_set<string>> e;
         
         for(auto account : accounts)
         {
-            m[account[1]] = account[0];
-            
             for(int i = 2; i < account.size(); i++)
             {
                 e[account[i]].insert(account[1]);
@@ -15,32 +12,29 @@ public:
             }
         }
         
+        string name = "";
         string email = "";
         
         unordered_set<string> visited;
         vector<vector<string>> result;
-        for(auto it = m.begin(); it != m.end(); it++)
+        for(auto& account : accounts)
         {
-            email = it->first;
+            name = account[0];
+            email = account[1];
             if(visited.find(email) == visited.end())
             {
                 vector<string> cur;
-                cur.push_back("");
+                cur.push_back(name);
                 cur.push_back(email);
                 
                 queue<string> q;
-                q.push(it->first);
-                visited.insert(it->first);
+                q.push(email);
+                visited.insert(email);
                 
                 while(!q.empty())
                 {
                     email = q.front();
                     q.pop();
-                    
-                    if(m.find(email) != m.end())
-                    {
-                        cur[0] = m[email];
-                    }
                     
                     for(string neighbor : e[email])
                     {
@@ -53,13 +47,10 @@ public:
                     }
                 }
                 
+                sort(cur.begin() + 1, cur.end());
+                
                 result.push_back(cur);
             }
-        }
-        
-        for(auto& mergedResult : result)
-        {
-            sort(mergedResult.begin() + 1, mergedResult.end());
         }
         
         return result;
