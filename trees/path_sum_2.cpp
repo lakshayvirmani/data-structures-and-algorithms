@@ -17,18 +17,12 @@ class Solution {
             return;
         }
         
-        if(root->left == NULL && root->right == NULL)
-        {
-            if(root->val == targetSum)
-            {
-                cur.push_back(root->val);
-                result.push_back(cur);
-                cur.pop_back();
-            }
-            return;
-        }
-        
         cur.push_back(root->val);
+        
+        if(root->left == NULL && root->right == NULL && root->val == targetSum)
+        {
+            result.push_back(cur);
+        }
         
         populatePaths(root->left, targetSum - root->val, cur, result);
         populatePaths(root->right, targetSum - root->val, cur, result);
